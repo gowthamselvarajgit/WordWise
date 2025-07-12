@@ -194,7 +194,7 @@ const LandingPage = () => {
       </section>
 
       <footer className="bg-white border-t border-gray-200 py-16 px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-start justify-center">
+        <div className="w-full mx-auto grid md:grid-cols-2 gap-12 items-start justify-center">
           {/* Left Side: Logo, About, Socials, Newsletter */}
           <div>
             <div className="flex items-center gap-2 mb-4">
