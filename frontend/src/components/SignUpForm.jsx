@@ -3,6 +3,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const SignUpSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is required"),
@@ -17,6 +18,7 @@ const SignUpSchema = Yup.object().shape({
 });
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
   return (
     <div className="p-10 bg-white w-full h-full">
       <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -37,6 +39,7 @@ const SignUpForm = () => {
         onSubmit={(values, { resetForm }) => {
           toast.success("Account Created Successfully!");
           resetForm();
+          navigate("/word-counter");
         }}
       >
         <Form className="space-y-5 mt-6">
