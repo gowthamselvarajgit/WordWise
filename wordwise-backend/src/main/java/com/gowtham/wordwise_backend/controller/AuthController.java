@@ -1,9 +1,11 @@
 package com.gowtham.wordwise_backend.controller;
 
+import com.gowtham.wordwise_backend.dto.LoginDTO;
 import com.gowtham.wordwise_backend.dto.UserDTO;
 import com.gowtham.wordwise_backend.entity.User;
 import com.gowtham.wordwise_backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,5 +23,15 @@ public class AuthController {
 
         User user = userService.register(userDTO);
         return "User registered successfully with ID:" + user.getId();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
+        try {
+            User user = userService.login(loginDTO);
+            return ResponseEntity.ok(user);
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
