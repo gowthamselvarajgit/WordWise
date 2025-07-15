@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
 
 const SignUpSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is required"),
@@ -19,6 +20,7 @@ const SignUpSchema = Yup.object().shape({
 
 const SignUpForm = () => {
   const navigate = useNavigate();
+
   return (
     <div className="p-10 bg-white w-full h-full">
       <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -36,10 +38,24 @@ const SignUpForm = () => {
           password: "",
         }}
         validationSchema={SignUpSchema}
-        onSubmit={(values, { resetForm }) => {
-          toast.success("Account Created Successfully!");
-          resetForm();
-          navigate("/word-counter");
+        onSubmit={async (values, { resetForm }) => {
+          try {
+            const response = await axios.post("/register", values);
+            const message =
+              typeof response.data === "string"
+                ? response.data
+                : response.data.message || "Registration successful!";
+            toast.success(message);
+            resetForm();
+            navigate("/login");
+          } catch (err) {
+            const message =
+              typeof err.response?.data === "string"
+                ? err.response.data
+                : err.response?.data?.message ||
+                  "Something went wrong. Please try again.";
+            toast.error(message);
+          }
         }}
       >
         <Form className="space-y-5 mt-6">

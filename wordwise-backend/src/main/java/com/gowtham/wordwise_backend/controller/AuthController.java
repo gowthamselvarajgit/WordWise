@@ -8,30 +8,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class AuthController {
+
     @Autowired
     private UserService userService;
 
     @PostMapping("/register")
-    public String register(@RequestBody UserDTO userDTO){
-        if(userService.emailExists(userDTO.getEmail())){
-            return "Email already exists!";
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
+        if (userService.emailExists(userDTO.getEmail())) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Email already exists!"));
         }
 
         User user = userService.register(userDTO);
-        return "User registered successfully with ID:" + user.getId();
+        return ResponseEntity.ok(Map.of("message", "User registered successfully!", "id", user.getId()));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         try {
             User user = userService.login(loginDTO);
             return ResponseEntity.ok(user);
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 }

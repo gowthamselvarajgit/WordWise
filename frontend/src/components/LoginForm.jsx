@@ -1,73 +1,82 @@
 import React from "react";
-import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import toast from "react-hot-toast";
+import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
+
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().required("Password is required"),
+});
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid Email").required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-  });
+
   return (
     <div className="p-10 bg-white w-full h-full">
-      <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back 👋</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back!</h2>
 
       <Formik
-        initialValues={{
-          email: "",
-          password: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={(values, { resetForm }) => {
-          toast.success("Logged in successfully!");
-          console.log(values);
-          resetForm();
-          navigate("/word-counter");
+        initialValues={{ email: "", password: "" }}
+        validationSchema={LoginSchema}
+        onSubmit={async (values, { resetForm }) => {
+          try {
+            const response = await axios.post("/login", {
+              email: values.email,
+              password: values.password,
+            });
+
+            toast.success("Login Successful");
+            resetForm();
+            navigate("/word-counter");
+          } catch (err) {
+            let message = "Login failed. Please try again.";
+
+            if (err.response?.data) {
+              message =
+                typeof err.response.data === "string"
+                  ? err.response.data
+                  : err.response.data.message ||
+                    JSON.stringify(err.response.data.message || {});
+            }
+
+            toast.error(message);
+          }
         }}
       >
-        {() => (
-          <Form className="space-y-4">
-            <div>
-              <Field
-                name="email"
-                type="email"
-                placeholder="Email"
-                className="w-full px-4 py-2 border border-gray-300 rounded outline-none focus:ring-2 focus:ring-blue-500
-                  "
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
-            </div>
+        <Form className="space-y-5 mt-6">
+          <Field
+            name="email"
+            type="email"
+            placeholder="Email"
+            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <ErrorMessage
+            name="email"
+            component="div"
+            className="text-red-500 text-sm mt-1"
+          />
 
-            <div>
-              <Field
-                name="password"
-                type="password"
-                placeholder="Password"
-                className="w-full px-4 py-2 border border-gray-300 rounded outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
-            </div>
+          <Field
+            name="password"
+            type="password"
+            placeholder="Password"
+            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <ErrorMessage
+            name="password"
+            component="div"
+            className="text-red-500 text-sm mt-1"
+          />
 
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
-            >
-              Login
-            </button>
-          </Form>
-        )}
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 w-full py-3 rounded-lg text-white font-semibold transition"
+          >
+            LOGIN
+          </button>
+        </Form>
       </Formik>
     </div>
   );
