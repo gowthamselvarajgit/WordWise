@@ -78,13 +78,6 @@
 
 ---
 
-## 🙌 Contribution
-
-- ✅ Application fully developed and deployed by **Gowtham**
-- 🧪 Testing done by **Mahima Pranavi** — special thanks for her efforts!
-
----
-
 ## 📞 Contact
 
 📧 Email: gowtham26.work@gmail.com  
