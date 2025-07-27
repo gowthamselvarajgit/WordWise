@@ -1,65 +1,98 @@
-# 🧠 WordWise — Intelligent Word Counter App
+# ✨ WordWise - Word Counter Application ✨
 
-Welcome to **WordWise** — a full-stack intelligent word and content analyzer built with a beautiful UI, real-time stats, and secure user management.
-
----
-
-## 🧩 Tech Stack
-
-### 💻 Frontend
-- **React.js** with **Functional Components**
-- **Tailwind CSS** for beautiful, responsive UI
-- **Formik + Yup** for form validation
-- **React Router DOM** for routing
-- **React Hot Toast** for notifications
-
-### ⚙️ Backend
-- **Spring Boot 3** (REST API)
-- **MySQL** (User data storage)
-- **JPA & Hibernate**
-- **DTO Pattern** & **Service Layer Architecture**
-- **UUID** as primary key
+🚀 A powerful full-stack word counter platform built with speed, simplicity, and scalability in mind.
 
 ---
 
-## ✨ Features
+## 🎥 Demo Video
+👉 [Watch Demo Video](https://drive.google.com/file/d/1HpU2hOp6JaKHfusHSzeIa3-pUbgHFU_a/view?usp=sharing)  
 
-### 🖊️ Word Counter
-- Live text editor with character, word, paragraph, sentence stats
-- Platform-specific limits: Twitter, LinkedIn, Facebook
-- Download your content as `.txt` file
-- Copy or clear content instantly
+## 🌐 Live Application
+👉 [Try It Out](http://65.0.106.151/)
 
-### 📈 Real-Time Analytics
-- Keyword frequency sidebar
-- Automatic updates as you type
-- Minimalist and clean UI for enhanced focus
-
-### 🔐 User Management
-- User Registration with validations
-- Login architecture in progress
-- Session-ready structure
+## 📂 GitHub Repository
+👉 [Explore the Code](https://lnkd.in/gAwnUx4m)
 
 ---
 
-## 🛠️ Setup Instructions
+## 🧱 Tech Stack
 
-### Frontend
+🎨 Frontend: React.js, Tailwind CSS
+💻 Backend: Spring Boot, Java, JPA, REST API  
+🗃️ Database: MySQL (RDS on AWS)  
+☁️ Cloud: Amazon EC2, Amazon RDS  
 
-```bash
-cd frontend
-npm install
-npm run dev
+---
 
-### Backend
+## 🛠️ Features
 
-cd backend
-# Use your IDE or terminal
-mvn spring-boot:run
+- ✍️ Input your text and get instant:
+  - ✅ Word Count
+  - ✅ Character Count
+  - ✅ Space Count
+- 🎯 Real-time updates as you type
+- 📦 Responsive UI using React and Tailwind
+- 🔐 Secure backend with Spring Boot REST API
+- 💾 Data stored in AWS-hosted MySQL DB
 
-🔐 Configuration
-MySQL on localhost:3306
-Database: wordwise_db
-Update credentials in application.yml
+---
 
+## 📌 How I Hosted It on AWS
+
+1. **Frontend Deployment:**
+   - Built React app using `npm run build`
+   - Installed `serve` globally:  
+     ```bash
+     npm install -g serve
+     ```
+   - Ran the app using:  
+     ```bash
+     nohup serve -s build -l 80 &
+     ```
+
+2. **Backend Deployment:**
+   - Packaged the backend with Maven:
+     ```bash
+     mvn clean package
+     ```
+   - SSH’d into the EC2 instance:
+     ```bash
+     ssh -i "key.pem" ubuntu@<EC2-IP>
+     ```
+   - Transferred JAR to instance:
+     ```bash
+     scp -i "key.pem" target/backend.jar ubuntu@<EC2-IP>:~
+     ```
+   - Ran the JAR:
+     ```bash
+     nohup java -jar backend.jar &
+     ```
+
+3. **Database Configuration:**
+   - Created a MySQL instance on Amazon RDS
+   - Configured security group to allow EC2 access
+   - Connected Spring Boot to RDS by updating `application.properties`
+
+4. **Security Groups:**
+   - Allowed HTTP (80), SSH (22), and custom TCP for MySQL (3306)
+
+---
+
+## 🙌 Contribution
+
+- ✅ Application fully developed and deployed by **Gowtham**
+- 🧪 Testing done by **Mahima Pranavi** — special thanks for her efforts!
+
+---
+
+## 📞 Contact
+
+📧 Email: gowtham26.work@gmail.com  
+🔗 LinkedIn: ([https://linkedin.com/in/gowtham](https://www.linkedin.com/in/gowtham4026/))
+
+---
+
+## 💬 Final Note
+
+Thank you for checking out **WordWise**! This is more than just a project — it’s a step forward in my full-stack development journey.
 
